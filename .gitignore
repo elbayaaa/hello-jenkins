@@ -1,0 +1,6 @@
+.aws-sam
+.idea
+jenkins-blueocean-docker
+samconfig-user1.toml
+new_user_credentials.csv
+hello-world/node_modules
