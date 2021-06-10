@@ -322,10 +322,14 @@ Resources:
             Value: !Ref BetaRegion
           - Name: TestingPipelineExecutionRole
             Value: !Ref BetaPipelineExecutionRole
+          - Name: TestBuildArtifactsBucket
+            Value: !Ref BetaBuildArtifactsBucket
           - Name: ProdRegion
             Value: !Ref ProdRegion
           - Name: ProdPipelineExecutionRole
             Value: !Ref ProdPipelineExecutionRole
+          - Name: ProdBuildArtifactsBucket
+            Value: !Ref ProdBuildArtifactsBucket
       ServiceRole: !Ref PipelineRole
       Source:
         Type: CODEPIPELINE
@@ -341,9 +345,9 @@ Resources:
                 - pip install awscli aws-sam-cli
                 - sam build
                 - . ./assume-role.sh ${TestingRegion} ${TestingPipelineExecutionRole} beta-package
-                - sam package --s3-bucket BetaBuildArtifactsBucket --region BetaRegion --output-template-file beta-packaged-testing.yaml
+                - sam package --s3-bucket ${TestBuildArtifactsBucket} --region ${TestingRegion} --output-template-file packaged-beta.yaml
                 - . ./assume-role.sh ${ProdRegion} ${ProdPipelineExecutionRole} prod-package
-                - sam package --s3-bucket ProdBuildArtifactsBucket --region ProdRegion --output-template-file prod-packaged-testing.yaml
+                - sam package --s3-bucket ${ProdBuildArtifactsBucket} --region ${ProdRegion} --output-template-file packaged-prod.yaml
           artifacts:
             files:
               - packaged-beta.yaml
