@@ -317,15 +317,15 @@ Resources:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
         Image: aws/codebuild/amazonlinux2-x86_64-standard:1.0
-      EnvironmentVariables:
-        - Name: TestingRegion
-          Value: !Ref BetaRegion
-        - Name: TestingPipelineExecutionRole
-          Value: !Ref BetaPipelineExecutionRole
-        - Name: ProdRegion
-          Value: !Ref ProdRegion
-        - Name: ProdPipelineExecutionRole
-          Value: !Ref ProdPipelineExecutionRole
+        EnvironmentVariables:
+          - Name: TestingRegion
+            Value: !Ref BetaRegion
+          - Name: TestingPipelineExecutionRole
+            Value: !Ref BetaPipelineExecutionRole
+          - Name: ProdRegion
+            Value: !Ref ProdRegion
+          - Name: ProdPipelineExecutionRole
+            Value: !Ref ProdPipelineExecutionRole
       ServiceRole: !Ref PipelineRole
       Source:
         Type: CODEPIPELINE
