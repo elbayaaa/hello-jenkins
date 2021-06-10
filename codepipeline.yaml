@@ -317,6 +317,15 @@ Resources:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
         Image: aws/codebuild/amazonlinux2-x86_64-standard:1.0
+      EnvironmentVariables:
+        - Name: TestingRegion
+          Value: !Ref BetaRegion
+        - Name: TestingPipelineExecutionRole
+          Value: !Ref BetaPipelineExecutionRole
+        - Name: ProdRegion
+          Value: !Ref ProdRegion
+        - Name: ProdPipelineExecutionRole
+          Value: !Ref ProdPipelineExecutionRole
       ServiceRole: !Ref PipelineRole
       Source:
         Type: CODEPIPELINE
@@ -331,9 +340,9 @@ Resources:
                 - pip install --upgrade pip
                 - pip install awscli aws-sam-cli
                 - sam build
-                - . ./assume-role.sh BetaRegion BetaPipelineExecutionRole beta-package
+                - . ./assume-role.sh ${TestingRegion} ${TestingPipelineExecutionRole} beta-package
                 - sam package --s3-bucket BetaBuildArtifactsBucket --region BetaRegion --output-template-file beta-packaged-testing.yaml
-                - . ./assume-role.sh ProdRegion ProdPipelineExecutionRole prod-package
+                - . ./assume-role.sh ${ProdRegion} ${ProdPipelineExecutionRole} prod-package
                 - sam package --s3-bucket ProdBuildArtifactsBucket --region ProdRegion --output-template-file prod-packaged-testing.yaml
           artifacts:
             files:
